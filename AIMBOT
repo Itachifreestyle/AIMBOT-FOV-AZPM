@@ -1,0 +1,1 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Itachifreestyle/AIMBOT-FOV-AZPM/refs/heads/main/Script"))();
