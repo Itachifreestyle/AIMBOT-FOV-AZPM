@@ -1,226 +1,804 @@
-print("carregando script!")
-local redzlib = loadstring(game:HttpGet("https://raw.githubusercontent.com/tbao143/Library-ui/refs/heads/main/Redzhubui"))()
-local Window = redzlib:MakeWindow({
-
-    Title = "azpm Hub",
-
-    SubTitle = "by azpm",
-
-    SaveFolder = "AZPM_HUB_Config"
-
-})
-
-Window:AddMinimizeButton({
-
-    Button = { Image = "rbxassetid://18440610369", BackgroundTransparency = 0 },
-
-    Corner = { CornerRadius = UDim.new(0, 35) }
-
-})
-
-redzlib:SetTheme("Dark")
-
-redzlib:SetTheme("Darker")
-
-redzlib:SetTheme("Purple")
-
-
-local Tab1 = Window:MakeTab({
-
-    Name = "ui",
-
-    Icon = "rbxassetid://18440610369"
-
-})
-
-
-Tab1:AddDiscordInvite({
-
-    Name = "azpm Hub",
-
-    Description = "Join server",
-
-    Logo = "rbxassetid://18440610369",
-
-    Invite = "https://discord.gg/4raFqpFCE"
-
-})
-
--- Tab2
-
-local Tab2 = Window:MakeTab({
-
-    Name = "⚙️ Sistema principal",
-
-    Icon = "rbxassetid://18440610369"
-
-})
-
-
-Tab2:AddSection({
-
-    Name = "Mapa Blox Fruits"
-
-})
-local Toggle = Tab2:AddToggle({
-
-Name = "⚔️ Auto Farm Level",
-
-Description = "Farm Level ",
-
-Default = false
-
-})
-local QuestData = {
-
-    {min=1, max=9,   npc="BanditQuest",         mob="Bandit"},
-
-    {min=10, max=14, npc="JungleQuest",         mob="Monkey"},
-
-    {min=15, max=29, npc="PirateQuest",         mob="Pirate"},
-
-    {min=30, max=39, npc="DesertQuest",         mob="Desert Bandit"},
-
-    {min=40, max=59, npc="SnowQuest",           mob="Snow Bandit"},
-
-    {min=60, max=89, npc="ZombieQuest",         mob="Zombie"},
-
-    {min=90, max=119,npc="MarineQuest",         mob="Marine"},
-
-    {min=120, max=149,npc="FishmanQuest",       mob="Fishman"},
-
-    {min=150, max=189,npc="SkyQuest",           mob="Sky Fishman"},
-
-    {min=190, max=209,npc="CactusQuest",        mob="Cactus Bandit"},
-
-    {min=210, max=249,npc="SnowMountainQuest",  mob="Glacial Bandit"},
-
-    {min=250, max=274, npc="NewPirateQuest",    mob="New Pirate"},
-
-    {min=275, max=299, npc="BarbarianQuest",    mob="Barbarian"},
-
-    {min=300, max=329, npc="FactoryQuest",      mob="Factory Worker"},
-
-    {min=330, max=360, npc="ColosseumQuest",    mob="Gladiator"},
-
-    {min=361, max=400, npc="SnowBeastQuest",    mob="Snow Beast"},
-
-    {min=401, max=450, npc="SeaSoldierQuest",   mob="Sea Soldier"},
-
-    {min=451, max=500, npc="MarineCaptQuest",   mob="Marine Captain"},
-
-    {min=501, max=699, npc="SkyIslandQuest",     mob="Sky Guardian"},
-
-    {min=700, max=899, npc="DesertKingQuest",    mob="Desert King"},
-
-    {min=900, max=1099,npc="IceLordQuest",       mob="Ice Lord"},
-
-    {min=1100, max=1299,npc="VolcanoQuest",      mob="Lava Beast"},
-
-    {min=1300, max=1499,npc="DeepSeaQuest",      mob="Abyssal Fish"},
-
-    {min=1500, max=1749,npc="GodsQuest",         mob="Godly Spawn"},
-
-    {min=1750, max=1999,npc="ThirdSeaQuest1",    mob="ThirdSea Mob A"},
-
-    {min=2000, max=2199,npc="ThirdSeaQuest2",    mob="ThirdSea Mob B"},
-
-    {min=2200, max=2399,npc="YLQuest",           mob="Yonko Lieutenant"},
-
-    {min=2400, max=2599,npc="FinalIslandQuest",  mob="Final Island Mob"},
-
-    {min=2600, max=2800,npc="UltimateQuest",     mob="Ultimate Boss"},
-
-}
-
-local function findNPC(name)
-
-    for _,v in pairs(workspace:GetDescendants()) do
-
-        if tostring(v.Name):lower():find(tostring(name):lower()) then
-
-            return v:FindFirstAncestorOfClass("Model") or v
-
-        end
-
+print("aimbot carregado!")
+
+local vu1 = game:GetService("Players")
+local vu2 = game:GetService("RunService")
+local vu3 = game:GetService("UserInputService")
+game:GetService("ReplicatedStorage")
+local vu4 = vu1.LocalPlayer
+local _ = workspace.CurrentCamera
+local v5 = vu4
+vu4.GetMouse(v5)
+_G.Skillaimbot = false
+_G.AimBotSkillPosition = nil
+_G.MaxAimDistance = 500
+_G.ESPEnabled = false
+_G.SpeedEnabled = false
+_G.SpeedValue = 1
+_G.AutoRaceAbility = false
+_G.AutoV4 = false
+_G.AntiStun = false
+_G.WalkOnWater = false
+_G.WalkOnLava = false
+local vu6 = nil
+local vu7 = nil
+local vu8 = Vector3.new(0, 0, 0)
+local vu9 = Instance.new("Folder")
+vu9.Name = "ESP_Folder"
+vu9.Parent = game.CoreGui
+local function vu12(p10)
+    if not p10.Team then
+        return false
     end
-
+    local v11 = p10.Team.Name:lower()
+    return v11:find("pirate") or v11:find("\224\185\130\224\184\136\224\184\163")
 end
-
-local function GetQuest()
-
-    local level = game.Players.LocalPlayer.Data.Level.Value
-
-    for _,q in ipairs(QuestData) do
-
-        if level >= q.min and level <= q.max then
-
-            return q
-
-        end
-
+local function vu15(p13)
+    if not p13.Team then
+        return false
     end
-
+    local v14 = p13.Team.Name:lower()
+    return v14:find("marine") or v14:find("navy")
 end
-
-_G.AutoFarm = false
-
-spawn(function()
-
-    while wait() do
-
-        if _G.AutoFarm then
-
-            local q = GetQuest()
-
-            if q then
-
-                local hrp = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-
-                local target = nil
-
-                for _,m in pairs(workspace:GetDescendants()) do
-
-                    if m:IsA("Model") and m:FindFirstChild("HumanoidRootPart") and tostring(m.Name):lower():find(tostring(q.mob):lower()) then
-
-                        if m:FindFirstChild("Humanoid").Health > 0 then
-
-                            target = m
-
-                            break
-
-                        }
-
-                    end
-
-                end
-
-                if target and hrp then
-
-                    hrp.CFrame = target.HumanoidRootPart.CFrame * CFrame.new(0,5,0)
-
-                else
-
-                    local npc = findNPC(q.npc)
-
-                    if npc and npc:FindFirstChild("HumanoidRootPart") then
-
-                        hrp.CFrame = npc.HumanoidRootPart.CFrame
-
-                        pcall(function()
-
-                            game.ReplicatedStorage.Remotes.CommF_:InvokeServer("StartQuest", npc.Name)
-
-                        end)
-
-                    end
-
-                end
-
+local function vu29(pu16)
+    local v27, v28 = pcall(function()
+        local v17 = vu4.PlayerGui:FindFirstChild("Main")
+        if not v17 then
+            return false
+        end
+        local v18 = v17:FindFirstChild("Allies")
+        if not v18 then
+            return false
+        end
+        local v19 = v18:FindFirstChild("Container")
+        if not v19 then
+            return false
+        end
+        local v20 = v19:FindFirstChild("Allies")
+        if not v20 then
+            return false
+        end
+        local v21 = v20:FindFirstChild("ScrollingFrame")
+        if not v21 then
+            return false
+        end
+        local v22 = v21:FindFirstChild("Frame")
+        if not v22 then
+            return false
+        end
+        local v23, v24, v25 = pairs(v22:GetChildren())
+        while true do
+            local v26
+            v25, v26 = v23(v24, v25)
+            if v25 == nil then
+                break
             end
-
+            if v26.Name == pu16.Name then
+                return true
+            end
         end
-
+        return false
+    end)
+    return v27 and v28 and v28 or false
+end
+local function vu43()
+    local v30 = vu4.Character
+    if not (v30 and v30:FindFirstChild("HumanoidRootPart")) then
+        return nil
     end
-
+    local v31 = v30.HumanoidRootPart.Position
+    local v32 = math.huge
+    local v33 = vu1
+    local v34, v35, v36 = pairs(v33:GetPlayers())
+    local v37 = nil
+    while true do
+        local v38
+        v36, v38 = v34(v35, v36)
+        if v36 == nil then
+            break
+        end
+        if v38 ~= vu4 and (v38.Character and v38.Parent == vu1) then
+            local v39 = v38.Character:FindFirstChild("HumanoidRootPart")
+            local v40 = v38.Character:FindFirstChild("Humanoid")
+            if v39 and (v40 and (v40.Health > 0 and v38.UserId > 0)) then
+                local v41 = (v31 - v39.Position).Magnitude
+                if v41 <= _G.MaxAimDistance then
+                    local v42 = not (vu4.Team and (v38.Team and (vu15(vu4) and vu15(v38))))
+                    if vu12(vu4) and vu29(v38) then
+                        v42 = false
+                    end
+                    if v42 then
+                        if v41 < v32 then
+                            v37 = v38
+                            v32 = v41
+                        end
+                    end
+                end
+            end
+        end
+    end
+    return v37
+end
+local function vu46(p44)
+    if not vu7 then
+        vu7 = p44
+        return Vector3.new(0, 0, 0)
+    end
+    local v45 = (p44 - vu7) * 60
+    vu7 = p44
+    vu8 = v45:Lerp(vu8, 0.3)
+    return vu8
+end
+local function vu54(p47, p48)
+    local v49 = vu4.Character
+    if not (v49 and v49:FindFirstChild("HumanoidRootPart")) then
+        return p47
+    end
+    local v50 = (v49.HumanoidRootPart.Position - p47).Magnitude
+    local v51 = v50 < 100 and 0.005 or (v50 < 200 and 0.008 or (v50 < 350 and 0.012 or (v50 < 500 and 0.015 or 0.018)))
+    local v52 = v50 / 450
+    local v53 = p47 + p48 * v51 * v52
+    return Vector3.new(v53.X, p47.Y + 3, v53.Z)
+end
+spawn(function()
+    while wait(0.005) do
+        if _G.Skillaimbot then
+            local v55 = vu43()
+            if v55 then
+                if v55 ~= vu6 then
+                    vu6 = v55
+                    vu7 = nil
+                    vu8 = Vector3.new(0, 0, 0)
+                end
+            else
+                vu6 = nil
+                vu7 = nil
+                _G.AimBotSkillPosition = nil
+            end
+            if vu6 and vu6.Character and vu6.Character:FindFirstChild("HumanoidRootPart") then
+                local v56 = vu6.Character:FindFirstChild("HumanoidRootPart")
+                if v56 and vu6.Character.Humanoid.Health > 0 then
+                    local v57 = v56.Position
+                    vu8 = vu46(v57)
+                    _G.AimBotSkillPosition = vu54(v57, vu8)
+                end
+            else
+                _G.AimBotSkillPosition = nil
+            end
+        else
+            vu6 = nil
+            _G.AimBotSkillPosition = nil
+        end
+    end
 end)
+spawn(function()
+    local v58 = getrawmetatable(game)
+    local vu59 = v58.__namecall
+    setreadonly(v58, false)
+    v58.__namecall = newcclosure(function(...)
+        local v60 = getnamecallmethod()
+        local v61 = {
+            ...
+        }
+        if not _G.Skillaimbot or (not _G.AimBotSkillPosition or tostring(v60) ~= "FireServer" and tostring(v60) ~= "InvokeServer") then
+            return vu59(...)
+        end
+        for v62 = 2, # v61 do
+            local v63 = v61[v62]
+            local v64 = typeof(v63)
+            if v64 == "Vector3" then
+                v61[v62] = _G.AimBotSkillPosition
+                break
+            end
+            if v64 == "CFrame" then
+                v61[v62] = CFrame.new(_G.AimBotSkillPosition)
+                break
+            end
+            if v64 == "table" then
+                if v63.X then
+                    if v63.Y then
+                        if v63.Z then
+                            v61[v62] = {
+                                X = _G.AimBotSkillPosition.X,
+                                Y = _G.AimBotSkillPosition.Y,
+                                Z = _G.AimBotSkillPosition.Z
+                            }
+                            break
+                        end
+                    end
+                end
+            end
+        end
+        return vu59(unpack(v61))
+    end)
+    setreadonly(v58, true)
+end)
+local function vu80(pu65)
+    if pu65 ~= vu4 then
+        if pu65.Team and (vu12(pu65) or vu15(pu65)) then
+            local v66 = vu9:FindFirstChild("ESP_" .. pu65.Name)
+            if v66 then
+                v66:Destroy()
+            end
+            local vu67 = Instance.new("BillboardGui")
+            vu67.Name = "ESP_" .. pu65.Name
+            vu67.Adornee = nil
+            vu67.AlwaysOnTop = true
+            vu67.Size = UDim2.new(0, 150, 0, 60)
+            vu67.StudsOffset = Vector3.new(0, 3, 0)
+            vu67.Parent = vu9
+            local vu68 = Instance.new("TextLabel")
+            vu68.Size = UDim2.new(1, 0, 0.28, 0)
+            vu68.BackgroundTransparency = 1
+            vu68.TextColor3 = Color3.fromRGB(255, 255, 255)
+            vu68.TextStrokeTransparency = 0.5
+            vu68.TextScaled = true
+            vu68.Font = Enum.Font.SourceSansBold
+            vu68.Text = pu65.Name
+            vu68.Parent = vu67
+            local vu69 = Instance.new("TextLabel")
+            vu69.Size = UDim2.new(1, 0, 0.22, 0)
+            vu69.Position = UDim2.new(0, 0, 0.28, 0)
+            vu69.BackgroundTransparency = 1
+            vu69.TextStrokeTransparency = 0.5
+            vu69.TextScaled = true
+            vu69.Font = Enum.Font.SourceSans
+            vu69.Text = "No Team"
+            vu69.Parent = vu67
+            local v70 = Instance.new("Frame")
+            v70.Size = UDim2.new(0.8, 0, 0.12, 0)
+            v70.Position = UDim2.new(0.1, 0, 0.52, 0)
+            v70.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+            v70.BorderSizePixel = 0
+            v70.Parent = vu67
+            local vu71 = Instance.new("Frame")
+            vu71.Size = UDim2.new(1, 0, 1, 0)
+            vu71.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+            vu71.BorderSizePixel = 0
+            vu71.Parent = v70
+            local vu72 = Instance.new("TextLabel")
+            vu72.Size = UDim2.new(1, 0, 0.22, 0)
+            vu72.Position = UDim2.new(0, 0, 0.5, 0)
+            vu72.BackgroundTransparency = 1
+            vu72.TextColor3 = Color3.fromRGB(0, 255, 0)
+            vu72.TextStrokeTransparency = 0.5
+            vu72.TextScaled = true
+            vu72.Font = Enum.Font.SourceSansBold
+            vu72.Text = "100%"
+            vu72.Parent = vu67
+            local vu73 = Instance.new("TextLabel")
+            vu73.Size = UDim2.new(1, 0, 0.22, 0)
+            vu73.Position = UDim2.new(0, 0, 0.75, 0)
+            vu73.BackgroundTransparency = 1
+            vu73.TextColor3 = Color3.fromRGB(255, 255, 0)
+            vu73.TextStrokeTransparency = 0.5
+            vu73.TextScaled = true
+            vu73.Font = Enum.Font.SourceSansBold
+            vu73.Text = "0 studs"
+            vu73.Parent = vu67
+            local vu74 = nil
+            vu74 = vu2.RenderStepped:Connect(function()
+                if _G.ESPEnabled and pu65.Parent then
+                    local v75 = pu65.Character
+                    if v75 and (v75:FindFirstChild("HumanoidRootPart") and v75:FindFirstChild("Humanoid")) then
+                        local v76 = v75.Humanoid
+                        if v76.Health <= 0 then
+                            vu67.Adornee = nil
+                        else
+                            local v77 = v75.HumanoidRootPart
+                            vu67.Adornee = v77
+                            local v78 = v76.Health / v76.MaxHealth * 100
+                            vu72.Text = string.format("%.0f HP", v76.Health)
+                            vu71.Size = UDim2.new(v76.Health / v76.MaxHealth, 0, 1, 0)
+                            if v78 > 60 then
+                                vu71.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+                                vu72.TextColor3 = Color3.fromRGB(0, 255, 0)
+                            elseif v78 > 30 then
+                                vu71.BackgroundColor3 = Color3.fromRGB(255, 165, 0)
+                                vu72.TextColor3 = Color3.fromRGB(255, 165, 0)
+                            else
+                                vu71.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+                                vu72.TextColor3 = Color3.fromRGB(255, 0, 0)
+                            end
+                            if vu12(pu65) then
+                                vu68.TextColor3 = Color3.fromRGB(255, 0, 0)
+                                vu69.Text = "PIRATE"
+                                vu69.TextColor3 = Color3.fromRGB(255, 0, 0)
+                            elseif vu15(pu65) then
+                                vu68.TextColor3 = Color3.fromRGB(0, 150, 255)
+                                vu69.Text = "MARINE"
+                                vu69.TextColor3 = Color3.fromRGB(0, 150, 255)
+                            end
+                            if vu4.Character and vu4.Character:FindFirstChild("HumanoidRootPart") then
+                                local v79 = (vu4.Character.HumanoidRootPart.Position - v77.Position).Magnitude
+                                vu73.Text = string.format("%.0fm", v79)
+                            end
+                        end
+                    else
+                        vu67.Adornee = nil
+                    end
+                else
+                    vu67:Destroy()
+                    vu74:Disconnect()
+                end
+            end)
+        end
+    else
+        return
+    end
+end
+vu1.PlayerAdded:Connect(function(pu81)
+    pu81.CharacterAdded:Connect(function()
+        if _G.ESPEnabled then
+            task.wait(1)
+            vu80(pu81)
+        end
+    end)
+end)
+vu1.PlayerRemoving:Connect(function(p82)
+    local v83 = vu9:FindFirstChild("ESP_" .. p82.Name)
+    if v83 then
+        v83:Destroy()
+    end
+end)
+local v84 = Instance.new("ScreenGui")
+v84.Name = "aimbot
+"
+v84.Parent = game.CoreGui
+v84.ResetOnSpawn = false
+local vu85 = Instance.new("TextButton")
+vu85.Size = UDim2.new(0, 80, 0, 40)
+vu85.Position = UDim2.new(0, 8, 0, 8)
+vu85.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+vu85.BorderSizePixel = 0
+vu85.Text = "MENU"
+vu85.TextColor3 = Color3.fromRGB(0, 255, 100)
+vu85.TextSize = 16
+vu85.Font = Enum.Font.GothamBold
+vu85.Parent = v84
+Instance.new("UICorner", vu85).CornerRadius = UDim.new(0, 8)
+local vu86 = Instance.new("TextButton")
+vu86.Size = UDim2.new(0, 80, 0, 40)
+vu86.Position = UDim2.new(0, 8, 0, 55)
+vu86.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+vu86.BorderSizePixel = 0
+vu86.Text = "AIM OFF"
+vu86.TextColor3 = Color3.fromRGB(255, 50, 50)
+vu86.TextSize = 14
+vu86.Font = Enum.Font.GothamBold
+vu86.Parent = v84
+Instance.new("UICorner", vu86).CornerRadius = UDim.new(0, 8)
+local vu87 = Instance.new("Frame")
+vu87.Size = UDim2.new(0, 300, 0, 420)
+vu87.Position = UDim2.new(0.5, - 150, 0.5, - 210)
+vu87.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+vu87.BorderSizePixel = 0
+vu87.Visible = false
+vu87.Parent = v84
+Instance.new("UICorner", vu87).CornerRadius = UDim.new(0, 12)
+local v88 = Instance.new("Frame")
+v88.Size = UDim2.new(1, 0, 0, 45)
+v88.BackgroundColor3 = Color3.fromRGB(0, 200, 80)
+v88.BorderSizePixel = 0
+v88.Parent = vu87
+Instance.new("UICorner", v88).CornerRadius = UDim.new(0, 12)
+local v89 = Instance.new("TextLabel")
+v89.Size = UDim2.new(1, - 40, 1, 0)
+v89.BackgroundTransparency = 1
+v89.Text = "ONION13"
+v89.TextColor3 = Color3.fromRGB(255, 255, 255)
+v89.TextSize = 18
+v89.Font = Enum.Font.GothamBold
+v89.Parent = v88
+local v90 = Instance.new("TextLabel")
+v90.Size = UDim2.new(0, 30, 1, 0)
+v90.Position = UDim2.new(0, 5, 0, 0)
+v90.BackgroundTransparency = 1
+v90.Text = utf8.char(129477)
+v90.TextSize = 22
+v90.Parent = v88
+local v91 = Instance.new("TextButton")
+v91.Size = UDim2.new(0, 35, 0, 35)
+v91.Position = UDim2.new(1, - 40, 0, 5)
+v91.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+v91.BorderSizePixel = 0
+v91.Text = "X"
+v91.TextColor3 = Color3.fromRGB(255, 255, 255)
+v91.TextSize = 18
+v91.Font = Enum.Font.GothamBold
+v91.Parent = v88
+Instance.new("UICorner", v91).CornerRadius = UDim.new(0, 8)
+local vu92 = Instance.new("ScrollingFrame")
+vu92.Size = UDim2.new(1, - 16, 1, - 55)
+vu92.Position = UDim2.new(0, 8, 0, 50)
+vu92.BackgroundTransparency = 1
+vu92.BorderSizePixel = 0
+vu92.ScrollBarThickness = 6
+vu92.ScrollBarImageColor3 = Color3.fromRGB(0, 255, 100)
+vu92.CanvasSize = UDim2.new(0, 0, 0, 650)
+vu92.Parent = vu87
+local vu93 = Instance.new("UIListLayout")
+vu93.Padding = UDim.new(0, 8)
+vu93.SortOrder = Enum.SortOrder.LayoutOrder
+vu93.Parent = vu92
+local function v101(p94, p95, pu96)
+    local v97 = Instance.new("TextButton")
+    v97.Size = UDim2.new(1, - 8, 0, 38)
+    v97.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    v97.BorderSizePixel = 0
+    v97.Text = p95 .. " " .. p94
+    v97.TextColor3 = Color3.fromRGB(255, 255, 255)
+    v97.TextSize = 13
+    v97.Font = Enum.Font.GothamBold
+    v97.TextXAlignment = Enum.TextXAlignment.Left
+    v97.Parent = vu92
+    Instance.new("UICorner", v97).CornerRadius = UDim.new(0, 8)
+    local v98 = Instance.new("UIStroke", v97)
+    v98.Color = Color3.fromRGB(60, 60, 60)
+    v98.Thickness = 1.5
+    Instance.new("UIPadding", v97).PaddingLeft = UDim.new(0, 10)
+    local vu99 = Instance.new("TextLabel")
+    vu99.Size = UDim2.new(0, 50, 1, 0)
+    vu99.Position = UDim2.new(1, - 55, 0, 0)
+    vu99.BackgroundTransparency = 1
+    vu99.Text = "OFF"
+    vu99.TextColor3 = Color3.fromRGB(255, 50, 50)
+    vu99.TextSize = 12
+    vu99.Font = Enum.Font.GothamBold
+    vu99.Parent = v97
+    local vu100 = false
+    v97.MouseButton1Click:Connect(function()
+        vu100 = not vu100
+        vu99.Text = vu100 and "ON" or "OFF"
+        vu99.TextColor3 = vu100 and Color3.fromRGB(0, 255, 100) or Color3.fromRGB(255, 80, 80)
+        pu96(vu100)
+    end)
+end
+local function v118(pu102, pu103, pu104, p105, pu106)
+    local v107 = Instance.new("Frame")
+    v107.Size = UDim2.new(1, - 8, 0, 60)
+    v107.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    v107.BorderSizePixel = 0
+    v107.Parent = vu92
+    Instance.new("UICorner", v107).CornerRadius = UDim.new(0, 8)
+    local v108 = Instance.new("UIStroke", v107)
+    v108.Color = Color3.fromRGB(60, 60, 60)
+    v108.Thickness = 1.5
+    local vu109 = Instance.new("TextLabel")
+    vu109.Size = UDim2.new(1, - 16, 0, 22)
+    vu109.Position = UDim2.new(0, 8, 0, 4)
+    vu109.BackgroundTransparency = 1
+    vu109.Text = pu102 .. ": " .. p105
+    vu109.TextColor3 = Color3.fromRGB(255, 255, 255)
+    vu109.TextSize = 12
+    vu109.Font = Enum.Font.GothamBold
+    vu109.TextXAlignment = Enum.TextXAlignment.Left
+    vu109.Parent = v107
+    local vu110 = Instance.new("Frame")
+    vu110.Size = UDim2.new(1, - 16, 0, 22)
+    vu110.Position = UDim2.new(0, 8, 0, 30)
+    vu110.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    vu110.BorderSizePixel = 0
+    vu110.Parent = v107
+    Instance.new("UICorner", vu110).CornerRadius = UDim.new(0, 8)
+    local vu111 = Instance.new("Frame")
+    vu111.Size = UDim2.new((p105 - pu103) / (pu104 - pu103), 0, 1, 0)
+    vu111.BackgroundColor3 = Color3.fromRGB(0, 255, 100)
+    vu111.BorderSizePixel = 0
+    vu111.Parent = vu110
+    Instance.new("UICorner", vu111).CornerRadius = UDim.new(0, 8)
+    local vu112 = false
+    vu110.InputBegan:Connect(function(p113)
+        if p113.UserInputType == Enum.UserInputType.MouseButton1 or p113.UserInputType == Enum.UserInputType.Touch then
+            vu112 = true
+        end
+    end)
+    vu110.InputEnded:Connect(function(p114)
+        if p114.UserInputType == Enum.UserInputType.MouseButton1 or p114.UserInputType == Enum.UserInputType.Touch then
+            vu112 = false
+        end
+    end)
+    vu3.InputChanged:Connect(function(p115)
+        if vu112 and (p115.UserInputType == Enum.UserInputType.MouseMovement or p115.UserInputType == Enum.UserInputType.Touch) then
+            local v116 = math.clamp((p115.Position.X - vu110.AbsolutePosition.X) / vu110.AbsoluteSize.X, 0, 1)
+            local v117 = math.floor(pu103 + (pu104 - pu103) * v116)
+            vu111.Size = UDim2.new(v116, 0, 1, 0)
+            vu109.Text = pu102 .. ": " .. v117
+            pu106(v117)
+        end
+    end)
+end
+v101("Skill Aimbot", utf8.char(127919), function(p119)
+    _G.Skillaimbot = p119
+    if not p119 then
+        vu6 = nil
+        _G.AimBotSkillPosition = nil
+    end
+end)
+v118("Aim Distance", 100, 1000, 500, function(p120)
+    _G.MaxAimDistance = p120
+end)
+v101("ESP", utf8.char(128065, 65039), function(p121)
+    _G.ESPEnabled = p121
+    if p121 then
+        local v122 = vu1
+        local v123, v124, v125 = pairs(v122:GetPlayers())
+        while true do
+            local v126
+            v125, v126 = v123(v124, v125)
+            if v125 == nil then
+                break
+            end
+            if v126 ~= vu4 then
+                vu80(v126)
+            end
+        end
+    else
+        local v127 = vu9
+        local v128, v129, v130 = pairs(v127:GetChildren())
+        while true do
+            local v131
+            v130, v131 = v128(v129, v130)
+            if v130 == nil then
+                break
+            end
+            v131:Destroy()
+        end
+    end
+end)
+v118("Speed", 1, 12, 1, function(p132)
+    _G.SpeedValue = p132
+end)
+v101("Speed Boost", utf8.char(9889), function(p133)
+    _G.SpeedEnabled = p133
+end)
+v101("Walk on Water", utf8.char(127754), function(p134)
+    _G.WalkOnWater = p134
+end)
+v101("Walk on Lava", utf8.char(128293), function(p135)
+    _G.WalkOnLava = p135
+    if p135 then
+        pcall(function()
+            local v136, v137, v138 = pairs(workspace.Map:GetDescendants())
+            while true do
+                local v139
+                v138, v139 = v136(v137, v138)
+                if v138 == nil then
+                    break
+                end
+                if v139.Name == "Lava" and v139:IsA("BasePart") then
+                    local v140 = v139:FindFirstChildOfClass("TouchTransmitter")
+                    if v140 then
+                        v140:Destroy()
+                    end
+                end
+            end
+        end)
+    end
+end)
+v101("Auto Race Ability", utf8.char(128170), function(p141)
+    _G.AutoRaceAbility = p141
+end)
+v101("Auto V4", utf8.char(11088), function(p142)
+    _G.AutoV4 = p142
+end)
+v101("Anti-Stun", utf8.char(128737, 65039), function(p143)
+    _G.AntiStun = p143
+end)
+local vu144 = Instance.new("TextButton")
+vu144.Size = UDim2.new(0, 60, 0, 60)
+vu144.Position = UDim2.new(1, - 80, 0, 120)
+vu144.BackgroundColor3 = Color3.fromRGB(0, 150, 255)
+vu144.BorderSizePixel = 0
+vu144.Text = utf8.char(8593)
+vu144.TextColor3 = Color3.fromRGB(255, 255, 255)
+vu144.TextSize = 32
+vu144.Font = Enum.Font.GothamBold
+vu144.Parent = v84
+Instance.new("UICorner", vu144).CornerRadius = UDim.new(1, 0)
+local v145 = Instance.new("UIStroke", vu144)
+v145.Color = Color3.fromRGB(0, 150, 255)
+v145.Thickness = 2
+local vu146 = false
+local vu147 = false
+local vu148 = nil
+local vu149 = nil
+vu144.InputBegan:Connect(function(p150)
+    if p150.UserInputType == Enum.UserInputType.MouseButton1 or p150.UserInputType == Enum.UserInputType.Touch then
+        vu148 = p150.Position
+        vu149 = vu144.Position
+        vu147 = false
+        wait(0.05)
+        if not vu147 and vu148 then
+            vu146 = true
+            local v151 = vu4.Character
+            if v151 and v151:FindFirstChild("Humanoid") then
+                v151.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+            end
+        end
+    end
+end)
+vu144.InputChanged:Connect(function(p152)
+    if vu148 and (p152.UserInputType == Enum.UserInputType.MouseMovement or p152.UserInputType == Enum.UserInputType.Touch) and (p152.Position - vu148).Magnitude > 20 then
+        vu147 = true
+        vu146 = false
+        local v153 = p152.Position - vu148
+        vu144.Position = UDim2.new(vu149.X.Scale, vu149.X.Offset + v153.X, vu149.Y.Scale, vu149.Y.Offset + v153.Y)
+    end
+end)
+vu144.InputEnded:Connect(function(p154)
+    if p154.UserInputType == Enum.UserInputType.MouseButton1 or p154.UserInputType == Enum.UserInputType.Touch then
+        vu146 = false
+        vu148 = nil
+        vu147 = false
+    end
+end)
+local vu155 = nil
+local vu156 = nil
+local vu157 = nil
+vu86.InputBegan:Connect(function(p158)
+    if p158.UserInputType == Enum.UserInputType.MouseButton1 or p158.UserInputType == Enum.UserInputType.Touch then
+        vu155 = p158.Position
+        vu156 = vu86.Position
+        vu157 = false
+    end
+end)
+vu86.InputChanged:Connect(function(p159)
+    if vu155 and (p159.UserInputType == Enum.UserInputType.MouseMovement or p159.UserInputType == Enum.UserInputType.Touch) and (p159.Position - vu155).Magnitude > 15 then
+        vu157 = true
+        local v160 = p159.Position - vu155
+        vu86.Position = UDim2.new(vu156.X.Scale, vu156.X.Offset + v160.X, vu156.Y.Scale, vu156.Y.Offset + v160.Y)
+    end
+end)
+vu86.InputEnded:Connect(function(p161)
+    if p161.UserInputType == Enum.UserInputType.MouseButton1 or p161.UserInputType == Enum.UserInputType.Touch then
+        if not vu157 then
+            _G.Skillaimbot = not _G.Skillaimbot
+            vu86.TextColor3 = _G.Skillaimbot and Color3.fromRGB(0, 255, 100) or Color3.fromRGB(255, 50, 50)
+            vu86.Text = _G.Skillaimbot and "AIM ON" or "AIM OFF"
+            if not _G.Skillaimbot then
+                vu6 = nil
+                _G.AimBotSkillPosition = nil
+            end
+        end
+        vu155 = nil
+        vu157 = false
+    end
+end)
+local vu162 = nil
+local vu163 = nil
+local vu164 = nil
+vu85.InputBegan:Connect(function(p165)
+    if p165.UserInputType == Enum.UserInputType.MouseButton1 or p165.UserInputType == Enum.UserInputType.Touch then
+        vu162 = p165.Position
+        vu163 = vu85.Position
+        vu164 = false
+    end
+end)
+vu85.InputChanged:Connect(function(p166)
+    if vu162 and (p166.UserInputType == Enum.UserInputType.MouseMovement or p166.UserInputType == Enum.UserInputType.Touch) and (p166.Position - vu162).Magnitude > 15 then
+        vu164 = true
+        local v167 = p166.Position - vu162
+        vu85.Position = UDim2.new(vu163.X.Scale, vu163.X.Offset + v167.X, vu163.Y.Scale, vu163.Y.Offset + v167.Y)
+    end
+end)
+vu85.InputEnded:Connect(function(p168)
+    if p168.UserInputType == Enum.UserInputType.MouseButton1 or p168.UserInputType == Enum.UserInputType.Touch then
+        if not vu164 then
+            vu87.Visible = not vu87.Visible
+        end
+        vu162 = nil
+        vu164 = false
+    end
+end)
+v91.MouseButton1Click:Connect(function()
+    vu87.Visible = false
+end)
+vu3.InputBegan:Connect(function(p169, p170)
+    if not p170 and p169.KeyCode == Enum.KeyCode.LeftControl then
+        vu87.Visible = not vu87.Visible
+    end
+end)
+local vu171 = nil
+local vu172 = nil
+local vu173 = nil
+v88.InputBegan:Connect(function(p174)
+    if p174.UserInputType == Enum.UserInputType.MouseButton1 or p174.UserInputType == Enum.UserInputType.Touch then
+        vu171 = true
+        vu172 = p174.Position
+        vu173 = vu87.Position
+    end
+end)
+v88.InputEnded:Connect(function(p175)
+    if p175.UserInputType == Enum.UserInputType.MouseButton1 or p175.UserInputType == Enum.UserInputType.Touch then
+        vu171 = false
+    end
+end)
+vu3.InputChanged:Connect(function(p176)
+    if vu171 and (p176.UserInputType == Enum.UserInputType.MouseMovement or p176.UserInputType == Enum.UserInputType.Touch) then
+        local v177 = p176.Position - vu172
+        vu87.Position = UDim2.new(vu173.X.Scale, vu173.X.Offset + v177.X, vu173.Y.Scale, vu173.Y.Offset + v177.Y)
+    end
+end)
+vu2.Heartbeat:Connect(function()
+    pcall(function()
+        if _G.SpeedEnabled then
+            local v178 = vu4.Character
+            if v178 and (v178:FindFirstChild("Humanoid") and v178:FindFirstChild("HumanoidRootPart")) then
+                local v179 = v178.Humanoid
+                local v180 = v178.HumanoidRootPart
+                if v179.MoveDirection.Magnitude > 0 then
+                    v180.CFrame = v180.CFrame + v179.MoveDirection * (_G.SpeedValue * 0.5)
+                end
+            end
+        end
+        local v181 = _G.WalkOnWater ~= nil and vu4.Character
+        if v181 then
+            if _G.WalkOnWater ~= true then
+                v181:SetAttribute("WaterWalking", false)
+            else
+                v181:SetAttribute("WaterWalking", true)
+            end
+        end
+        if vu146 and not vu147 then
+            local v182 = vu4.Character
+            if v182 and v182:FindFirstChild("HumanoidRootPart") then
+                v182.HumanoidRootPart.Velocity = Vector3.new(v182.HumanoidRootPart.Velocity.X, 200, v182.HumanoidRootPart.Velocity.Z)
+            end
+        end
+    end)
+end)
+spawn(function()
+    while wait(0.1) do
+        if _G.AutoRaceAbility then
+            pcall(function()
+                game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CommE"):FireServer("ActivateAbility")
+            end)
+        end
+    end
+end)
+spawn(function()
+    while wait(0.5) do
+        if _G.AutoV4 then
+            pcall(function()
+                local v183 = vu4.Character
+                if v183 then
+                    local v184 = v183:FindFirstChild("RaceEnergy")
+                    local v185 = v183:FindFirstChild("RaceTransformed")
+                    if v184 and (v185 and (tonumber(v184.Value) == 1 and v185.Value == false)) then
+                        local v186 = game:GetService("VirtualInputManager")
+                        v186:SendKeyEvent(true, "Y", false, game)
+                        wait(0.1)
+                        v186:SendKeyEvent(false, "Y", false, game)
+                    end
+                end
+            end)
+        end
+    end
+end)
+spawn(function()
+    while wait(0.01) do
+        if _G.AntiStun then
+            pcall(function()
+                local v187 = vu4.Character
+                local v188 = v187 and v187:FindFirstChild("Stun")
+                if v188 then
+                    v188.Value = 0
+                end
+            end)
+        end
+    end
+end)
+local v189 = vu93
+vu93.GetPropertyChangedSignal(v189, "AbsoluteContentSize"):Connect(function()
+    vu92.CanvasSize = UDim2.new(0, 0, 0, vu93.AbsoluteContentSize.Y + 15)
+end)
+local v190 = Instance.new("TextLabel")
+v190.Size = UDim2.new(0, 180, 0, 28)
+v190.Position = UDim2.new(0.5, - 90, 1, - 35)
+v190.BackgroundTransparency = 1
+v190.Text = "by azpmxx"
+v190.TextColor3 = Color3.fromRGB(0, 255, 100)
+v190.TextSize = 14
+v190.Font = Enum.Font.GothamBold
+v190.TextStrokeTransparency = 0.3
+v190.Parent = v84end)
